@@ -2,14 +2,15 @@ using System;
 
 class Program
 {
-    struct Lyceum_s {
+    struct Lyceum_s
+    {
         public string surname;
         public string group;
         public string[] grade;
     }
     enum subjects
     {
-        математика =1,
+        математика = 1,
         русский,
         английский,
         физика,
@@ -44,7 +45,7 @@ class Program
             Console.WriteLine("Ученик с указанной фамилией не учится в ЛИТ 1533");
         }
     }
-    static void add_mark( Lyceum_s[] lyc, string mark, string surname, int num)
+    static void add_mark(Lyceum_s[] lyc, string mark, string surname, int num)
     {
         int std = -1;
         for (int i = 0; i < lyc.Length; i++)
@@ -52,9 +53,11 @@ class Program
             if (lyc[i].surname == surname) std = i;
         }
         if (std == -1) Console.WriteLine("Такого ученика нет");
-        else { lyc[std].grade[num] += mark;
+        else
+        {
+            lyc[std].grade[num] += mark;
             Console.WriteLine($"Ученику {lyc[std].surname}, группы {lyc[std].group} добавлена оценка {mark } по предмету {(subjects)Enum.GetValues(typeof(subjects)).GetValue(num)}, теперь его оценки выглядят так: {lyc[std].grade[num]} ");
-            
+
         }
     }
     static void add_std(int n, out Lyceum_s[] lyc)
@@ -77,18 +80,15 @@ class Program
         }
 
     }
-    static bool excel_std(string grade)
+    static double excel_std(string grade)
     {
-        bool res = false;
         double avg_mark = 0;
         for (int j = 0; j < grade.Length; j++)
         {
             avg_mark += Int32.Parse(Convert.ToString(grade[j]));
         }
         avg_mark /= grade.Length;
-        
-        if (avg_mark >= 4.0) res = true;
-        return res;
+        return avg_mark;
 
     }
     static void std_sub_ex(Lyceum_s[] lyc, int num)
@@ -98,13 +98,25 @@ class Program
         for (int i = 0; i < lyc.Length; i++)
         {
 
-            if (excel_std((lyc[i].grade)[num])) { Console.WriteLine($"{lyc[i].surname}, группа {lyc[i].group}");
+            if (excel_std((lyc[i].grade)[num]) >= 4.0)
+            {
+                Console.WriteLine($"{lyc[i].surname}, группа {lyc[i].group}");
                 end = false;
             }
         }
         if (end)
         {
             Console.WriteLine("Таких нет");
+        }
+    }
+    static void same_mark(Lyceum_s[] lyc, int num)
+    {
+        for (int i = 0; i < lyc.Length; i++)
+        {
+            for (int j = 0; j < lyc.Length; j++)
+                if (Math.Abs(excel_std(lyc[i].grade[num]) - excel_std(lyc[j].grade[num])) < 0.1) { 
+                    Console.WriteLine($"У учеников {lyc[i].surname} группы {lyc[i].group} и ученика {lyc[j].surname} группы {lyc[j].group} имеют одинаковый балл {Math.Round(excel_std(lyc[i].grade[num]), 2)} по предмету {(subjects)Enum.GetValues(typeof(subjects)).GetValue(num)}"); 
+                }
         }
     }
     static void std_gr(Lyceum_s[] lyc, string group)
@@ -115,7 +127,7 @@ class Program
             if (lyc[i].group == group) Console.WriteLine($"{lyc[i].surname}");
         }
     }
-    static void refer(Lyceum_s[] lyc,  string surname)
+    static void refer(Lyceum_s[] lyc, string surname)
     {
         int n = -1;
         for (int i = 0; i < lyc.Length; i++)
@@ -136,7 +148,7 @@ class Program
             }
             Console.WriteLine($"Дана {lyc[n].surname}");
             Console.WriteLine($"обучающаяся в {lyc[n].group}  классе.");
-            Console.WriteLine($"Дата окончания обучения 30 июня {2023 +   11 - gr}");
+            Console.WriteLine($"Дата окончания обучения 30 июня {2023 + 11 - gr}");
         }
         else
         {
@@ -176,6 +188,8 @@ class Program
         Console.WriteLine("Введите фамилию ученика, которого надо перевести на класс старше");
         string surn3 = Console.ReadLine();
         transfer(lyc, surn3);
+        Console.WriteLine("Введите номер предмета, по которому у учеников должен быть одинаковый балл");
+        int num3 = int.Parse(Console.ReadLine());
+        same_mark(lyc, num3);
     }
 }
-
