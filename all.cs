@@ -56,7 +56,7 @@ class Program
         else
         {
             lyc[std].grade[num] += mark;
-            Console.WriteLine($"Ученику {lyc[std].surname}, группы {lyc[std].group} добавлена оценка {mark } по предмету {(subjects)Enum.GetValues(typeof(subjects)).GetValue(num)}, теперь его оценки выглядят так: {lyc[std].grade[num]} ");
+            Console.WriteLine($"Ученику {lyc[std].surname}, группы {lyc[std].group} добавлена оценка {mark } по предмету {(subjects)num}, теперь его оценки выглядят так: {lyc[std].grade[num]} ");
 
         }
     }
@@ -73,7 +73,7 @@ class Program
             stud.grade = new string[5];
             for (int j = 0; j < 5; j++)
             {
-                Console.WriteLine($"Введите строку из оценок по предмету {(subjects)Enum.GetValues(typeof(subjects)).GetValue(j)}");
+                Console.WriteLine($"Введите строку из оценок по предмету {(subjects)j}");
                 stud.grade[j] = Console.ReadLine();
             }
             lyc[i] = stud;
@@ -94,7 +94,7 @@ class Program
     static void std_sub_ex(Lyceum_s[] lyc, int num)
     {
         bool end = true;
-        Console.WriteLine($"Ученики, являющиеся отличниками и хорошистами по предмету {(subjects)Enum.GetValues(typeof(subjects)).GetValue(num)}: ");
+        Console.WriteLine($"Ученики, являющиеся отличниками и хорошистами по предмету {(subjects)num}: ");
         for (int i = 0; i < lyc.Length; i++)
         {
 
@@ -114,8 +114,9 @@ class Program
         for (int i = 0; i < lyc.Length; i++)
         {
             for (int j = 0; j < lyc.Length; j++)
-                if (Math.Abs(excel_std(lyc[i].grade[num]) - excel_std(lyc[j].grade[num])) < 0.1) { 
-                    Console.WriteLine($"У учеников {lyc[i].surname} группы {lyc[i].group} и ученика {lyc[j].surname} группы {lyc[j].group} имеют одинаковый балл {Math.Round(excel_std(lyc[i].grade[num]), 2)} по предмету {(subjects)Enum.GetValues(typeof(subjects)).GetValue(num)}"); 
+                if (Math.Abs(excel_std(lyc[i].grade[num]) - excel_std(lyc[j].grade[num])) < 0.1)
+                {
+                    Console.WriteLine($"У учеников {lyc[i].surname} группы {lyc[i].group} и ученика {lyc[j].surname} группы {lyc[j].group} имеют одинаковый балл {Math.Round(excel_std(lyc[i].grade[num]), 2)} по предмету {(subjects)num}");
                 }
         }
     }
